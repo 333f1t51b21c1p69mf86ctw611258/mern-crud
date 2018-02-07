@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "yarn migration && yarn seed && yarn dev",
-    "dev": "CORS=1 node server",
+    "dev": "CORS=1 nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migration": "NODE_ENV=development ./node_modules/.bin/sequelize db:migrate",
     "undo": "NODE_ENV=development ./node_modules/.bin/sequelize db:seed:undo:all && ./node_modules/.bin/sequelize db:migrate:undo:all",
