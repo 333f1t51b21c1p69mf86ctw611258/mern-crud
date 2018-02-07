@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "description": "A simple records system using MongoDB, Express.js, React.js, and Node.js with real-time CRUD operations using Socket.io",
   "main": "server.js",
+  "engines": {
+    "node": ">=8.9",
+    "yarn": "*"
+  },
   "scripts": {
-    "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "yarn migration && yarn seed && yarn dev",
+    "dev": "CORS=1 node server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migration": "NODE_ENV=development ./node_modules/.bin/sequelize db:migrate",
+    "undo": "NODE_ENV=development ./node_modules/.bin/sequelize db:seed:undo:all && ./node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed": "NODE_ENV=development ./node_modules/.bin/sequelize db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -23,12 +31,27 @@
     "cors": "2.8.4",
     "express": "4.15.3",
     "express-rate-limit": "2.9.0",
+    "joi": "^13.1.2",
     "mongoose": "4.10.8",
     "mongoose-unique-validator": "1.0.5",
     "mongoose-validator": "1.3.2",
     "mysql2": "^1.5.2",
     "sequelize": "^4.32.7",
+    "sequelize-cli": "^3.2.0",
+    "shortid": "^2.2.8",
     "socket.io": "2.0.3",
-    "string-capitalize-name": "1.0.3"
+    "string-capitalize-name": "1.0.3",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "chai-http": "^3.0.0",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3",
+    "mocha": "^3.4.2",
+    "nyc": "^11.4.1",
+    "sequelize-cli": "^3.2.0",
+    "sinon": "^4.1.2"
   }
 }

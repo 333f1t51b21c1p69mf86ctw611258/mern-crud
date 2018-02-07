@@ -59,7 +59,7 @@ class App extends Component {
   handleUserUpdated(user) {
     let users = this.state.users.slice();
     for (let i = 0, n = users.length; i < n; i++) {
-      if (users[i]._id === user._id) {
+      if (users[i].id === user.id) {
         users[i].name = user.name;
         users[i].email = user.email;
         users[i].age = user.age;
@@ -72,7 +72,7 @@ class App extends Component {
 
   handleUserDeleted(user) {
     let users = this.state.users.slice();
-    users = users.filter(u => { return u._id !== user._id; });
+    users = users.filter(u => { return u.id !== user.id; });
     this.setState({ users: users });
   }
 

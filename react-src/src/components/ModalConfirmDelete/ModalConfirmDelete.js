@@ -7,7 +7,7 @@ class ModalConfirmDelete extends Component {
   constructor(props) {
     super(props);
 
-    this.state ={
+    this.state = {
       modalOpen: false
     }
 
@@ -16,8 +16,13 @@ class ModalConfirmDelete extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleOpen = e => this.setState({ modalOpen: true });
-  handleClose = e => this.setState({ modalOpen: false });
+  handleOpen(e) {
+    this.setState({ modalOpen: true });
+  }
+
+  handleClose(e) {
+    this.setState({ modalOpen: false });
+  }
 
   handleSubmit(e) {
 
@@ -28,15 +33,15 @@ class ModalConfirmDelete extends Component {
       responseType: 'json',
       url: `${this.props.server}/api/users/${params}`,
     })
-    .then((response) => {
-      this.handleClose();
-      this.props.onUserDeleted(response.data.result);
-      this.props.socket.emit('delete', response.data.result);
-    })
-    .catch((err) => {
-      this.handleClose();
-      throw err;
-    });
+      .then((response) => {
+        this.handleClose();
+        this.props.onUserDeleted(response.data.result);
+        this.props.socket.emit('delete', response.data.result);
+      })
+      .catch((err) => {
+        this.handleClose();
+        throw err;
+      });
   }
 
   render() {
@@ -53,9 +58,9 @@ class ModalConfirmDelete extends Component {
           <p>Are you sure you want to delete <strong>{this.props.user.name}</strong>?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.handleSubmit} data-userID={this.props.user._id} color='red'>Yes</Button>
+          <Button onClick={this.handleSubmit} data-userID={this.props.user.id} color='red'>Yes</Button>
           <Button onClick={this.handleClose} color='black'>No</Button>
-          </Modal.Actions>
+        </Modal.Actions>
       </Modal>
     );
   }

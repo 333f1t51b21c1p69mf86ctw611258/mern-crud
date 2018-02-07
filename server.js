@@ -7,6 +7,8 @@ const socket = require('socket.io');
 
 const config = require('./config/config');
 
+const controllers = require('./api/controllers/index');
+
 // Use Node's default promise instead of Mongoose's promise library
 mongoose.Promise = global.Promise;
 
@@ -43,7 +45,9 @@ if (process.env.CORS) {
 }
 
 // Initialize routes middleware
-app.use('/api/users', require('./routes/users'));
+// app.use('/api/users', require('./routes/users'));
+app.use('/api', controllers);
+
 
 // Use express's default error handling middleware
 app.use((err, req, res, next) => {
