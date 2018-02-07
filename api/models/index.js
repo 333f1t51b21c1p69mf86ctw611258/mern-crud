@@ -15,17 +15,15 @@ const db = {
   sequelize,
 };
 
-fs
-  .readdirSync(__dirname)
+fs.readdirSync(__dirname)
   .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
 
-// db.tasks.hasMany(db.transactions, { foreignKey: 'taskId' });
-// db.transactions.belongsTo(db.tasks);
-// db.transactions.hasOne(db.transaction_details, { foreignKey: 'transactionId' });
+db.product_group.hasMany(db.product, { foreignKey: 'groupId' });
+db.product.belongsTo(db.product_group);
 
 module.exports = db;
 
