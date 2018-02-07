@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const socket = require('socket.io');
 
-const config = require('./config/db');
+const config = require('./config/config');
 
 // Use Node's default promise instead of Mongoose's promise library
 mongoose.Promise = global.Promise;
