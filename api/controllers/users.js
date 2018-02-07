@@ -3,10 +3,7 @@ const repositories = require('../repositories');
 const express = require('express');
 const router = express.Router();
 const RateLimit = require('express-rate-limit');
-const mongoose = require('mongoose');
 const stringCapitalizeName = require('string-capitalize-name');
-
-const User = require('../../models/user');
 
 // Attempt to limit spam post requests for inserting data
 const minutes = 5;
@@ -102,6 +99,7 @@ router.put('/:id', (req, res) => {
   else if (age > 130 && age != '') return res.status(403).json({ success: false, msg: `You're too old for this.` });
 
   let updatedUser = {
+    id: req.params.id,
     name: sanitizeName(req.body.name),
     email: sanitizeEmail(req.body.email),
     age: sanitizeAge(req.body.age),

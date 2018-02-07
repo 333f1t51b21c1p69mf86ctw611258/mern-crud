@@ -2,27 +2,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const socket = require('socket.io');
 
 const config = require('./config/config');
 
 const controllers = require('./api/controllers/index');
-
-// Use Node's default promise instead of Mongoose's promise library
-mongoose.Promise = global.Promise;
-
-// Connect to the database
-mongoose.connect(config.db);
-let db = mongoose.connection;
-
-db.on('open', () => {
-  console.log('Connected to the database.');
-});
-
-db.on('error', (err) => {
-  console.log(`Database error: ${err}`);
-});
 
 // Instantiate express
 const app = express();

@@ -1,24 +1,34 @@
 version: '2'
 services:
-  db:
-    image: mongo:latest
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+    #  - db_data:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: konbini
+      MYSQL_USER: konbini
+      MYSQL_PASSWORD: konbini
   api:
     build: .
-    image: mern-crud
+    image: test-assignment
     command: nodemon server
     ports:
       - "3000:3000"
     environment:
-      - "DB=mongodb://db/mern-crud"
       - "CORS=1"
       - "DEBUG=express:*"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - db
+      - mysqldb
   web:
-    image: mern-crud
+    image: test-assignment
     command: npm start --prefix react-src
     ports:
       - "4200:4200"

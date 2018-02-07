@@ -4,7 +4,7 @@ const shortid = require('shortid');
 module.exports = {
   getById: (id, success, error) => {
     models.users
-      .findOne({ where: { id }, include: {} })
+      .findOne({ where: { id } })
       .then(success)
       .catch(error);
   },
@@ -22,7 +22,7 @@ module.exports = {
       })
       .catch(error);
   },
-  update: (user, success, error) => {
+  update: (user, cbSuccess, error) => {
     models.users.update({
       name: user.name,
       email: user.email,
@@ -31,12 +31,23 @@ module.exports = {
     }, {
         where: { id: user.id },
       })
-      .then(success)
+      .then(() => {
+        models.users
+          .findOne({ where: { id: user.id } })
+          .then(cbSuccess);
+      })
       .catch(error);
   },
-  delete: (id, success, error) => {
-    models.users.destroy({ where: { id }, individualHooks: true })
-      .then(success)
-      .catch(error);
+  delete: (id, cbSuccess, error) => {
+    models.users
+      .findOne({ where: { id } })
+      .then((old) => {
+        models.users.destroy({ where: { id }, individualHooks: true })
+          .then(() => {
+            cbSuccess(old);
+          })
+          .catch(error);
+      });
+
   }
 };
