@@ -1,28 +1,27 @@
 const models = require('../models');
-const shortid = require('shortid');
 
 module.exports = {
-  getById: (id, success, error) => {
+  getById: (id, cbSuccess, cbError) => {
     models.users
       .findOne({ where: { id } })
-      .then(success)
-      .catch(error);
+      .then(cbSuccess)
+      .catch(cbError);
   },
-  getAll: (success, error) => {
+  getAll: (cbSuccess, cbError) => {
     models.users
       .findAll({ where: {} })
-      .then(success)
-      .catch(error);
+      .then(cbSuccess)
+      .catch(cbError);
   },
-  create: (user, success, error) => {
+  create: (user, cbSuccess, cbError) => {
     models.users
       .create(user)
       .then((result) => {
-        success(result);
+        cbSuccess(result);
       })
-      .catch(error);
+      .catch(cbError);
   },
-  update: (user, cbSuccess, error) => {
+  update: (user, cbSuccess, cbError) => {
     models.users.update({
       name: user.name,
       email: user.email,
@@ -36,9 +35,9 @@ module.exports = {
           .findOne({ where: { id: user.id } })
           .then(cbSuccess);
       })
-      .catch(error);
+      .catch(cbError);
   },
-  delete: (id, cbSuccess, error) => {
+  delete: (id, cbSuccess, cbError) => {
     models.users
       .findOne({ where: { id } })
       .then((old) => {
@@ -46,8 +45,7 @@ module.exports = {
           .then(() => {
             cbSuccess(old);
           })
-          .catch(error);
+          .catch(cbError);
       });
-
   }
 };
