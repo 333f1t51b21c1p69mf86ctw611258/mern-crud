@@ -27,6 +27,8 @@ router.get('/:id', (req, res) => {
     }
   }, (err) => {
     res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
+
+    console.error(err);
   });
 });
 
@@ -36,6 +38,8 @@ router.get('/', (req, res) => {
     res.json(result);
   }, (err) => {
     res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
+
+    console.error(err);
   });
 });
 
@@ -66,15 +70,10 @@ router.post('/', postLimiter, (req, res) => {
       }
     });
   }, (err) => {
-    if (err.errors) {
-      if (err.errors.name) {
-        res.status(400).json({ success: false, msg: err.errors.name.message });
-        return;
-      }
+    // Show failed if all else fails for some reasons
+    res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
 
-      // Show failed if all else fails for some reasons
-      res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
-    }
+    console.error(err);
   });
 });
 
@@ -105,15 +104,10 @@ router.put('/:id', (req, res) => {
       }
     });
   }, (err) => {
-    if (err.errors) {
-      if (err.errors.name) {
-        res.status(400).json({ success: false, msg: err.errors.name.message });
-        return;
-      }
-      
-      // Show failed if all else fails for some reasons
-      res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
-    }
+    // Show failed if all else fails for some reasons
+    res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
+
+    console.error(err);
   });
 });
 
@@ -135,6 +129,8 @@ router.delete('/:id', (req, res) => {
     });
   }, (err) => {
     res.status(404).json({ success: false, msg: 'Nothing to delete.' });
+
+    console.error(err);
   });
 });
 

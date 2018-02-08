@@ -3,8 +3,8 @@ import { Container } from 'semantic-ui-react';
 import axios from 'axios';
 import io from 'socket.io-client';
 
-import TableUser from '../TableUser/TableUser';
-import ModalUser from '../ModalUser/ModalUser';
+import TableProduct from '../TableProduct/TableProduct';
+import ModalProduct from '../ModalProduct/ModalProduct';
 
 import logo from '../../logo.svg';
 import './App.css';
@@ -18,61 +18,62 @@ class App extends Component {
     this.socket = io.connect(this.server);
 
     this.state = {
-      users: [],
+      products: [],
       online: 0
     }
 
-    this.fetchUsers = this.fetchUsers.bind(this);
-    this.handleUserAdded = this.handleUserAdded.bind(this);
-    this.handleUserUpdated = this.handleUserUpdated.bind(this);
-    this.handleUserDeleted = this.handleUserDeleted.bind(this);
+    this.fetchProducts = this.fetchProducts.bind(this);
+    this.handleProductAdded = this.handleProductAdded.bind(this);
+    this.handleProductUpdated = this.handleProductUpdated.bind(this);
+    this.handleProductDeleted = this.handleProductDeleted.bind(this);
   }
 
   // Place socket.io code inside here
   componentDidMount() {
-    this.fetchUsers();
+    this.fetchProducts();
     this.socket.on('visitor enters', data => this.setState({ online: data }));
     this.socket.on('visitor exits', data => this.setState({ online: data }));
-    this.socket.on('add', data => this.handleUserAdded(data));
-    this.socket.on('update', data => this.handleUserUpdated(data));
-    this.socket.on('delete', data => this.handleUserDeleted(data));
+    this.socket.on('add', data => this.handleProductAdded(data));
+    this.socket.on('update', data => this.handleProductUpdated(data));
+    this.socket.on('delete', data => this.handleProductDeleted(data));
   }
 
   // Fetch data from the back-end
-  fetchUsers() {
-    axios.get(`${this.server}/api/users/`)
+  fetchProducts() {
+    axios.get(`${this.server}/api/products/`)
     .then((response) => {
-      this.setState({ users: response.data });
+      this.setState({ products: response.data });
     })
     .catch((err) => {
       console.log(err);
     });
   }
 
-  handleUserAdded(user) {
-    let users = this.state.users.slice();
-    users.push(user);
-    this.setState({ users: users });
+  handleProductAdded(product) {
+    let products = this.state.products.slice();
+    products.push(product);
+    this.setState({ products: products });
   }
 
-  handleUserUpdated(user) {
-    let users = this.state.users.slice();
-    for (let i = 0, n = users.length; i < n; i++) {
-      if (users[i].id === user.id) {
-        users[i].name = user.name;
-        users[i].email = user.email;
-        users[i].age = user.age;
-        users[i].gender = user.gender;
+  handleProductUpdated(product) {
+    let products = this.state.products.slice();
+    for (let i = 0, n = products.length; i < n; i++) {
+      if (products[i].id === product.id) {
+        products[i].name = product.name;
+        products[i].description = product.description;
+        products[i].price = product.price;
+        products[i].quantity = product.quantity;
+        products[i].groupId = product.groupId;
         break; // Stop this loop, we found it!
       }
     }
-    this.setState({ users: users });
+    this.setState({ products: products });
   }
 
-  handleUserDeleted(user) {
-    let users = this.state.users.slice();
-    users = users.filter(u => { return u.id !== user.id; });
-    this.setState({ users: users });
+  handleProductDeleted(product) {
+    let products = this.state.products.slice();
+    products = products.filter(u => { return u.id !== product.id; });
+    this.setState({ products: products });
   }
 
   render() {
@@ -90,20 +91,20 @@ class App extends Component {
           </div>
         </div>
         <Container>
-          <ModalUser
-            headerTitle='Add User'
+          <ModalProduct
+            headerTitle='Add Product'
             buttonTriggerTitle='Add New'
             buttonSubmitTitle='Add'
             buttonColor='green'
-            onUserAdded={this.handleUserAdded}
+            onProductAdded={this.handleProductAdded}
             server={this.server}
             socket={this.socket}
           />
           <em id='online'>{`${online} ${noun} ${verb} online.`}</em>
-          <TableUser
-            onUserUpdated={this.handleUserUpdated}
-            onUserDeleted={this.handleUserDeleted}
-            users={this.state.users}
+          <TableProduct
+            onProductUpdated={this.handleProductUpdated}
+            onProductDeleted={this.handleProductDeleted}
+            products={this.state.products}
             server={this.server}
             socket={this.socket}
           />

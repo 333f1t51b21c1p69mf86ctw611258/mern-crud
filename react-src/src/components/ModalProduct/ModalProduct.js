@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 
-import FormUser from '../FormUser/FormUser';
+import FormProduct from '../FormProduct/FormProduct';
 
-class ModalUser extends Component {
+class ModalProduct extends Component {
 
   render() {
     return (
@@ -15,12 +15,12 @@ class ModalUser extends Component {
       >
         <Modal.Header>{this.props.headerTitle}</Modal.Header>
         <Modal.Content>
-          <FormUser
+          <FormProduct
             buttonSubmitTitle={this.props.buttonSubmitTitle}
             buttonColor={this.props.buttonColor}
-            userID={this.props.userID}
-            onUserAdded={this.props.onUserAdded}
-            onUserUpdated={this.props.onUserUpdated}
+            productID={this.props.productID}
+            onProductAdded={this.props.onProductAdded}
+            onProductUpdated={this.props.onProductUpdated}
             server={this.props.server}
             socket={this.props.socket}
           />
@@ -30,4 +30,4 @@ class ModalUser extends Component {
   }
 }
 
-export default ModalUser;
+export default ModalProduct;

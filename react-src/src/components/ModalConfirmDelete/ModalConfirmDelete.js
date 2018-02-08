@@ -26,16 +26,16 @@ class ModalConfirmDelete extends Component {
 
   handleSubmit(e) {
 
-    let params = e.target.getAttribute('data-userID');
+    let params = e.target.getAttribute('data-productID');
 
     axios({
       method: 'delete',
       responseType: 'json',
-      url: `${this.props.server}/api/users/${params}`,
+      url: `${this.props.server}/api/products/${params}`,
     })
       .then((response) => {
         this.handleClose();
-        this.props.onUserDeleted(response.data.result);
+        this.props.onProductDeleted(response.data.result);
         this.props.socket.emit('delete', response.data.result);
       })
       .catch((err) => {
@@ -55,10 +55,10 @@ class ModalConfirmDelete extends Component {
       >
         <Modal.Header>{this.props.headerTitle}</Modal.Header>
         <Modal.Content>
-          <p>Are you sure you want to delete <strong>{this.props.user.name}</strong>?</p>
+          <p>Are you sure you want to delete <strong>{this.props.product.name}</strong>?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.handleSubmit} data-userID={this.props.user.id} color='red'>Yes</Button>
+          <Button onClick={this.handleSubmit} data-productID={this.props.product.id} color='red'>Yes</Button>
           <Button onClick={this.handleClose} color='black'>No</Button>
         </Modal.Actions>
       </Modal>
