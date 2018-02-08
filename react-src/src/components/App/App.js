@@ -32,6 +32,8 @@ class App extends Component {
     this.handleProductDeleted = this.handleProductDeleted.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleItemClick_Group = this.handleItemClick_Group.bind(this);
+
+    this.handleProductBought = this.handleProductBought.bind(this);
   }
 
   // Place socket.io code inside here
@@ -77,6 +79,10 @@ class App extends Component {
           console.log(err);
         });
     }
+  }
+
+  handleProductBought(groupId) {
+    this.fetchProductsByGroupId(groupId);
   }
 
   // Fetch data from the back-end
@@ -161,6 +167,12 @@ class App extends Component {
               server={this.server}
               socket={this.socket}
             />
+            <span>
+              <label htmlFor="file" className="ui icon button">
+                  <i className="file icon"></i>
+                  Upload CSV</label>
+              <input type="file" id="file" className="hidden" />
+            </span>
             <em id='online'>{`${online} ${noun} ${verb} online.`}</em>
             <TableProduct
               onProductUpdated={this.handleProductUpdated}
@@ -175,6 +187,7 @@ class App extends Component {
         default:
           jsxContent = <div>
             <GridProduct
+              onProductBought={this.handleProductBought}
               products={this.state.productsByGroupId}
               selectedGroupId={this.state.activeItem}
               selectedGroupName={this.state.activeItemName}

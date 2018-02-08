@@ -12,7 +12,9 @@ module.exports = {
   getAll: (cbSuccess, cbError) => {
     models.product
       .findAll({
-        where: {}, order: [['groupId', 'DESC']]
+        where: {}, include: [{
+          model: models.product_group
+        }], order: [['groupId', 'DESC']]
       })
       .then(cbSuccess)
       .catch(cbError);

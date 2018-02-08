@@ -8,7 +8,7 @@ module.exports = {
         name: 'Product 00' + index,
         description: 'product00' + index,
         price: 123.456,
-        quantity: 123 - index,
+        quantity: index % 20,
         groupId: (index % 9) + 1,
         createdAt: new Date(),
         updatedAt: new Date(),

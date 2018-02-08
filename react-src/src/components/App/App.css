@@ -64,3 +64,7 @@ a.shirts {
   text-align: center;
   padding: 6px;
 }
+
+.hidden {
+  display: none;
+}

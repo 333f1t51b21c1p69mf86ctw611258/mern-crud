@@ -18,7 +18,12 @@ class GridProduct extends Component {
       url: `${this.props.server}/api/products/buy/${name}`
     })
       .then((response) => {
-        console.log(response.data);
+        const product = response.data.result;
+        console.log(product);
+
+        if (product && product.quantity && product.quantity <= 0) {
+          this.props.onProductBought(product.groupId);
+        }
       })
       .catch((err) => {
         console.error(err);

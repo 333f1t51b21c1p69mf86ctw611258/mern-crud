@@ -22,5 +22,8 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+db.product_group.hasMany(db.product, { foreignKey: 'groupId' });
+db.product.belongsTo(db.product_group, {foreignKey: 'groupId', foreignKeyConstraint: true});
+
 module.exports = db;
 

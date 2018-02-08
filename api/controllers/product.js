@@ -145,7 +145,7 @@ router.delete('/:id', (req, res) => {
   });
 });
 
-// UPDATE
+// BUY
 router.put('/buy/:id', (req, res) => {
   const id = req.params.id;
   repositories.product.buy(id, (result) => {

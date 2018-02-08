@@ -14,7 +14,7 @@ class TableProduct extends Component {
         <Table.Cell>{product.description}</Table.Cell>
         <Table.Cell>{product.price}</Table.Cell>
         <Table.Cell>{product.quantity}</Table.Cell>
-        <Table.Cell>{product.groupId}</Table.Cell>
+        <Table.Cell>{product.product_group.name}</Table.Cell>
         <Table.Cell>
           <ModalProduct
             headerTitle='Edit Product'
@@ -50,7 +50,7 @@ class TableProduct extends Component {
             <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell>Price</Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
-            <Table.HeaderCell>GroupId</Table.HeaderCell>
+            <Table.HeaderCell>Group</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
