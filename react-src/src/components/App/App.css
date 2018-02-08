@@ -49,3 +49,18 @@ a.shirts {
 .shirts img {
   height: 40px;
 }
+
+.toc {
+  width: 200px;
+}
+
+.article {
+  margin-top: 30px;
+  margin-left: 200px;
+}
+
+.product {
+  border: solid 1px tan;
+  text-align: center;
+  padding: 6px;
+}

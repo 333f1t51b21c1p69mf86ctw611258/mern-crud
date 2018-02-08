@@ -43,6 +43,17 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/groupId/:groupId', (req, res) => {
+  const groupId = req.params.groupId;
+  repositories.product.getByGroupId(groupId, (result) => {
+    res.json(result);
+  }, (err) => {
+    res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
+
+    console.error(err);
+  });
+});
+
 // CREATE
 router.post('/', postLimiter, (req, res) => {
 
@@ -129,6 +140,31 @@ router.delete('/:id', (req, res) => {
     });
   }, (err) => {
     res.status(404).json({ success: false, msg: 'Nothing to delete.' });
+
+    console.error(err);
+  });
+});
+
+// UPDATE
+router.put('/buy/:id', (req, res) => {
+  const id = req.params.id;
+  repositories.product.buy(id, (result) => {
+    res.json({
+      success: true,
+      msg: `Successfully updated!`,
+      result: {
+        id: result.id,
+        groupId: result.groupId,
+        name: result.name,
+        description: result.description,
+        price: result.price,
+        picture: result.picture,
+        quantity: result.quantity,
+      }
+    });
+  }, (err) => {
+    // Show failed if all else fails for some reasons
+    res.status(500).json({ success: false, msg: `Something went wrong. ${err}` });
 
     console.error(err);
   });

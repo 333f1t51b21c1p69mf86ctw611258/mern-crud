@@ -5,9 +5,7 @@ import ModalProduct from '../ModalProduct/ModalProduct';
 import ModalConfirmDelete from '../ModalConfirmDelete/ModalConfirmDelete';
 
 class TableProduct extends Component {
-
   render() {
-
     let products = this.props.products;
 
     products = products.map((product) => 

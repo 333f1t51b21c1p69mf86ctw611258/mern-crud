@@ -1,4 +1,6 @@
 const models = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = {
   getById: (id, cbSuccess, cbError) => {
@@ -9,7 +11,17 @@ module.exports = {
   },
   getAll: (cbSuccess, cbError) => {
     models.product
-      .findAll({ where: {} })
+      .findAll({
+        where: {}, order: [['groupId', 'DESC']]
+      })
+      .then(cbSuccess)
+      .catch(cbError);
+  },
+  getByGroupId: (groupId, cbSuccess, cbError) => {
+    models.product
+      .findAll({
+        where: { groupId, quantity: { [Op.gt]: 0 } }
+      })
       .then(cbSuccess)
       .catch(cbError);
   },
@@ -49,5 +61,22 @@ module.exports = {
           })
           .catch(cbError);
       });
-  }
+  },
+  buy: (id, cbSuccess, cbError) => {
+    models.product
+      .findOne({ where: { id } })
+      .then((old) => {
+        models.product.update({
+          quantity: old.quantity - 1,
+        }, {
+            where: { id },
+          })
+          .then(() => {
+            models.product
+              .findOne({ where: { id } })
+              .then(cbSuccess);
+          })
+          .catch(cbError);
+      });
+  },
 };

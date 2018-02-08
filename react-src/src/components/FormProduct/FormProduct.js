@@ -26,7 +26,8 @@ class FormProduct extends Component {
   }
 
   componentWillMount() {
-    axios.get(`${this.props.server}/api/product_groups/`)
+    if (groupOptions.length <= 0) {
+      axios.get(`${this.props.server}/api/product_groups/`)
       .then((response) => {
         const product_groups = response.data;
         for (let index = 0; index < product_groups.length; index++) {
@@ -42,6 +43,7 @@ class FormProduct extends Component {
       .catch((err) => {
         console.log(err);
       });
+    }
 
     // Fill in the form with the appropriate data if product id is provided
     if (this.props.productID) {

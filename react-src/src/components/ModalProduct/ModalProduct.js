@@ -4,7 +4,6 @@ import { Button, Modal } from 'semantic-ui-react';
 import FormProduct from '../FormProduct/FormProduct';
 
 class ModalProduct extends Component {
-
   render() {
     return (
       <Modal
