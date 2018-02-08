@@ -7,6 +7,7 @@ const socket = require('socket.io');
 const config = require('./config/config');
 
 const controllers = require('./api/controllers/index');
+const models = require('./api/models');
 
 // Instantiate express
 const app = express();
@@ -48,9 +49,12 @@ const server = app.listen(port, () => {
 // Set up socket.io
 const io = socket(server);
 let online = 0;
+let sockets = [];
 
 io.on('connection', (socket) => {
   online++;
+  sockets.push(socket);
+
   console.log(`Socket ${socket.id} connected.`);
   console.log(`Online: ${online}`);
   io.emit('visitor enters', online);
@@ -61,8 +65,28 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     online--;
+    sockets = sockets.filter(function (el) {
+      return el.id !== socket.id;
+    });
+
     console.log(`Socket ${socket.id} disconnected.`);
     console.log(`Online: ${online}`);
     io.emit('visitor exits', online);
   });
+});
+
+models.product.hook('afterCreate', function (product) {
+  // sockets.forEach(element => {
+  //   element.emit('add', product);
+  // });
+});
+models.product.hook('afterUpdate', function (product) {
+  // sockets.forEach(element => {
+  //   element.emit('update', product);
+  // });
+});
+models.product.hook('afterDestroy', function (product) {
+  // sockets.forEach(element => {
+  //   element.emit('delete', product);
+  // });
 });
